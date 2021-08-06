@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Jemaat;
+use App\Models\Keluarga;
 
 class JemaatController extends Controller
 {
@@ -14,7 +15,6 @@ class JemaatController extends Controller
      */
     public function index()
     {
-        
         $jemaats = Jemaat::all();
         return view('jemaat.index',compact('jemaats'));
     }
@@ -26,7 +26,8 @@ class JemaatController extends Controller
      */
     public function create()
     {
-        //
+        
+        return view('jemaat.create');
     }
 
     /**
@@ -37,7 +38,22 @@ class JemaatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $jemaat = new Jemaat;
+        $jemaat->nama           = $request->nama;
+        $jemaat->golongan_darah = $request->golongan_darah;
+        $jemaat->kategori       = $request->kategori;
+        $jemaat->alamat         = $request->nama;
+        if($request->keluarga_id){
+            $jemaat->keluarga_id = $request->keluarga_id;
+        }else{
+            $keluarga = Keluarga::firstOrCreate([
+                'nama' => '-',
+                'alamat' => '',
+            ]);
+            $jemaat->keluarga_id = $keluarga->id;
+        }
+        $jemaat->save();
+        return redirect(route('jemaat.index'));
     }
 
     /**
@@ -48,7 +64,9 @@ class JemaatController extends Controller
      */
     public function show($id)
     {
-        //
+        $jemaat = Jemaat::find($id);
+        
+        return view('jemaat.show',compact('jemaat'));
     }
 
     /**
@@ -59,7 +77,8 @@ class JemaatController extends Controller
      */
     public function edit($id)
     {
-        //
+        $jemaat = Jemaat::find($id);
+        return view('jemaat.edit',compact('jemaat'));
     }
 
     /**
@@ -71,7 +90,22 @@ class JemaatController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $jemaat                 = Jemaat::find($id);
+        $jemaat->nama           = $request->nama;
+        $jemaat->golongan_darah = $request->golongan_darah;
+        $jemaat->kategori       = $request->kategori;
+        $jemaat->alamat         = $request->nama;
+        if($request->keluarga_id){
+            $jemaat->keluarga_id = $request->keluarga_id;
+        }else{
+            $keluarga = Keluarga::firstOrCreate([
+                'nama' => '-',
+                'alamat' => '',
+            ]);
+            $jemaat->keluarga_id = $keluarga->id;
+        }
+        $jemaat->update();
+        return redirect(route('jemaat.index'));
     }
 
     /**
@@ -82,6 +116,9 @@ class JemaatController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $jemaat = Jemaat::find($id);
+        $jemaat->delete();
+        return redirect()->back();
     }
 }
+

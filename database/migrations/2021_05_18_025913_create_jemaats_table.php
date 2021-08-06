@@ -17,7 +17,7 @@ class CreateJemaatsTable extends Migration
             $table->id();
             $table->string('nama',50);
             $table->char('golongan_darah',2);
-            $table->dateTime('tanggal_lahir')->nullable();
+            $table->date('tanggal_lahir')->nullable();
             $table->string('kategori',20);
             $table->text('alamat');
             $table->foreignId('keluarga_id')->constrained()->default(1);

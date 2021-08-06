@@ -9,7 +9,7 @@ use App\Models\Jemaat;
 class Keluarga extends Model
 {
     use HasFactory;
-
+    protected $fillable = ['nama','alamat'];
     public function jemaats(){
         return $this->hasMany(Jemaat::class);
     }

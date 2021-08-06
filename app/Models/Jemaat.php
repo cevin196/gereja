@@ -10,6 +10,6 @@ class Jemaat extends Model
     use HasFactory;
 
     public function keluargas(){
-        return $this->belongsTo(Keluarga::class);
+        return $this->belongsTo(Keluarga::class,'id','id');
     }
 }
