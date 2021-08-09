@@ -15,9 +15,9 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
     
-    Route::resource('/jemaat',JemaatController::class);
+    Route::resource('/jemaat',JemaatController::class);    
     Route::resource('/keluarga',KeluargaController::class);
-    Route::resource('/keuangan',KeuanganController::class);
+    Route::resource('/keuangan',KeuanganController::class);    
 });
 
 require __DIR__.'/auth.php';

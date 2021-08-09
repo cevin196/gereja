@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Jemaat;
@@ -18,7 +19,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         \App\Models\User::factory(1)->create();
-        // \App\Models\Jemaat::factory(50)->create();
+        DB::table('keluargas')->insert([
+            'nama' => '-',
+            'alamat' => '-',            
+        ]);
         \App\Models\Keluarga::factory(3)
         ->has(
             Jemaat::factory()
@@ -28,6 +32,7 @@ class DatabaseSeeder extends Seeder
                     })
         )
         ->create();
+
     }
 }
 

@@ -20,7 +20,7 @@ class CreateJemaatsTable extends Migration
             $table->date('tanggal_lahir')->nullable();
             $table->string('kategori',20);
             $table->text('alamat');
-            $table->foreignId('keluarga_id')->constrained()->default(1);
+            $table->foreignId('keluarga_id')->constrained()->default(1)->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

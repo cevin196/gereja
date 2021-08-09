@@ -7,11 +7,7 @@ use App\Models\Keluarga;
 
 class KeluargaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {      
         $keluargas = Keluarga::all();
@@ -19,69 +15,57 @@ class KeluargaController extends Controller
         return view('keluarga.index',compact('keluargas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        
+        return view('keluarga.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nama' => 'required|min:3',
+        ]);
+
+        $keluarga = new Keluarga;
+        $keluarga->nama           = $request->nama;       
+        $keluarga->alamat         = $request->alamat;        
+        $keluarga->save();
+        return redirect(route('keluarga.edit',$keluarga->id));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $keluarga = Keluarga::find($id);
+        
+        return view('keluarga.show',compact('keluarga'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $keluarga   = Keluarga::find($id);
+        $jemaat     = Keluarga::where('nama','-')->first();
+        return view('keluarga.edit',compact('keluarga'));        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'nama' => 'required|min:3',
+        ]);
+
+        $keluarga =  Keluarga::find($id);
+        $keluarga->nama           = $request->nama;       
+        $keluarga->alamat         = $request->alamat;        
+        $keluarga->update();
+        return redirect(route('keluarga.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $keluarga = Keluarga::find($id);
+        $keluarga->delete();
+        return redirect()->back();
     }
 }
